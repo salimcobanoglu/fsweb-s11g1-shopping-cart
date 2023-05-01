@@ -5,14 +5,15 @@ import { AppContext } from "../AppContext";
 
 const Product = (props) => {
   const { addItem } = useContext(AppContext);
+  const { title, price, image } = props.product;
 
   return (
     <ScProduct>
-      <img src={props.product.image} alt={`${props.product.title} book`} />
+      <img src={image} alt={`${title} book`} />
       <div className="details">
-        <h1 className="title">{props.product.title}</h1>
+        <h1 className="title">{title}</h1>
         <div className="footer">
-          <p className="price">${props.product.price}</p>
+          <p className="price">${price}</p>
           <button onClick={() => addItem(props.product)}>Add to cart</button>
         </div>
       </div>

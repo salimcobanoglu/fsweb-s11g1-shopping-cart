@@ -9,16 +9,23 @@ import Products from "./components/Products";
 import ShoppingCart from "./components/ShoppingCart";
 
 function App() {
+  const oncekiler = JSON.parse(localStorage.getItem("KartlarYenidenDagitildi"));
+  const baslangicDegeri = oncekiler ? oncekiler : [];
+
   const [products, setProducts] = useState(data);
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState(baslangicDegeri);
 
   const addItem = (item) => {
     // verilen itemi sepete ekleyin
-    setCart([...cart, item]);
+    const yeniState = [...cart, item];
+    setCart(yeniState);
+    localStorage.setItem("KartlarYenidenDagitildi", JSON.stringify(yeniState));
   };
 
   const removeItem = (itemId) => {
-    setCart(cart.filter((item) => item.id !== itemId));
+    const kalacaklar = cart.filter((item) => item.id !== itemId);
+    setCart(kalacaklar);
+    localStorage.setItem("KartlarYenidenDagitildi", JSON.stringify(kalacaklar));
   };
 
   return (
@@ -26,7 +33,7 @@ function App() {
       <AppContext.Provider
         value={{ products, setProducts, cart, setCart, addItem, removeItem }}
       >
-        <Navigation cart={cart} />
+        <Navigation />
 
         {/* Routelar */}
         <main className="content">
@@ -35,7 +42,7 @@ function App() {
           </Route>
 
           <Route path="/cart">
-            <ShoppingCart cart={cart} />
+            <ShoppingCart />
           </Route>
         </main>
       </AppContext.Provider>
